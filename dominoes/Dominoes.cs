@@ -29,15 +29,15 @@ public static class Dominoes
             );
 
     private static Func<IEnumerable<(int, int)>, bool> PossibleChains(this (int, int) domino) =>
-        sublist => domino.PossibleChains(sublist).Any(CanChain);
+        tail => domino.PossibleChains(tail).Any(CanChain);
 
-    public static IEnumerable<(int, int)[]> PossibleChains(this (int, int) domino, IEnumerable<(int, int)> remainder)
+    public static IEnumerable<(int, int)[]> PossibleChains(this (int, int) domino, IEnumerable<(int, int)> tail)
     {
-        var head = remainder.First();
+        var head = tail.First();
 
         if (domino.Item2 == head.Item1)
-            yield return new[] { (domino.Item1, head.Item2) }.Concat(remainder.Skip(1)).ToArray();
+            yield return new[] { (domino.Item1, head.Item2) }.Concat(tail.Skip(1)).ToArray();
         else if (domino.Item2 == head.Item2)
-            yield return new[] { (domino.Item1, head.Item1) }.Concat(remainder.Skip(1)).ToArray();
+            yield return new[] { (domino.Item1, head.Item1) }.Concat(tail.Skip(1)).ToArray();
     }
 }
