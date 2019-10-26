@@ -23,12 +23,9 @@ public static class Ledger
          => new LedgerEntry(date, description, change);
 
     private static CultureInfo CreateCulture(string currency, string location)
-    {
-        if (!IsValidCurrency(currency) || !IsValidLocation(location))
-            throw new ArgumentException("Invalid currency");
-
-        return GetCulture(currency, location);
-    }
+        => IsValidCurrency(currency) && IsValidLocation(location)
+            ? GetCulture(currency, location)
+            : throw new ArgumentException("Invalid currency");
 
     private static bool IsValidCurrency(string currency)
         => currency == "USD" || currency == "EUR";
@@ -129,6 +126,6 @@ public static class Ledger
             .Sort()
             .Aggregate(
                 PrintHead(locale),
-                (accumulator, next) => $"{accumulator}\n{CreateCulture(currency, locale).PrintEntry(next)}"
+                (text, entry) => $"{text}\n{CreateCulture(currency, locale).PrintEntry(entry)}"
             );
 }
