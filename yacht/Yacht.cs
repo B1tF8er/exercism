@@ -25,43 +25,57 @@ public static class YachtGame
         switch (category)
         {
             case YachtCategory.Yacht:
-                return dice.Distinct().Count() == 1
-                    ? 50
-                    : 0;
+                return dice.IsYacht();
             case YachtCategory.Ones:
-                return dice.Where(value => value == 1).Sum();
             case YachtCategory.Twos:
-                return dice.Where(value => value == 2).Sum();
             case YachtCategory.Threes:
-                return dice.Where(value => value == 3).Sum();
             case YachtCategory.Fours:
-                return dice.Where(value => value == 4).Sum();
             case YachtCategory.Fives:
-                return dice.Where(value => value == 5).Sum();
             case YachtCategory.Sixes:
-                return dice.Where(value => value == 6).Sum();
+                return dice.IsAnyCombinationOf(category);
             case YachtCategory.FullHouse:
-                var diceByValue = dice.ToLookup(value => value);
-                return diceByValue.Count == 2 && diceByValue.First().Count() == 2 || diceByValue.First().Count() == 3
-                    ? dice.Sum()
-                    : 0;
+                return dice.IsFullHouse();
             case YachtCategory.FourOfAKind:
-                return dice.GroupBy(value => value)
-                    .FirstOrDefault(value => value.Count() >= 4)
-                    ?.First() * 4 ?? 0;
+                return dice.IsFourOfAKind();
             case YachtCategory.LittleStraight:
-                return dice.OrderBy(value => value).SequenceEqual(new[] { 1, 2, 3, 4, 5 })
-                    ? 30
-                    : 0;
+                return dice.IsLittleStraight();
             case YachtCategory.BigStraight:
-                return dice.OrderBy(value => value).SequenceEqual(new[] { 2, 3, 4, 5, 6 })
-                    ? 30
-                    : 0;
+                return dice.IsBigStraight();
             case YachtCategory.Choice:
                 return dice.Sum();
             default:
                 return 0;
         }
     }
+
+    private static int IsYacht(this int[] dice)
+        => dice.Distinct().Count() == 1
+            ? 50
+            : 0;
+
+    private static int IsAnyCombinationOf(this int[] dice, YachtCategory yachtCategory)
+        => dice.Where(value => value == (int)yachtCategory)
+               .Sum();
+
+    private static int IsFullHouse(this int[] dice)
+        => dice.GroupBy(value => value)
+               .All(diceGroup => diceGroup.Count() == 2 || diceGroup.Count() == 3)
+            ? dice.Sum()
+            : 0;
+
+    private static int IsFourOfAKind(this int[] dice)
+        => dice.GroupBy(value => value)
+               .FirstOrDefault(value => value.Count() >= 4)
+               ?.First() * 4 ?? 0;
+
+    private static int IsLittleStraight(this int[] dice)
+        => dice.OrderBy(value => value).SequenceEqual(Enumerable.Range(1, 5))
+            ? 30
+            : 0;
+
+    private static int IsBigStraight(this int[] dice)
+        => dice.OrderBy(value => value).SequenceEqual(Enumerable.Range(2, 5))
+            ? 30
+            : 0;
 }
 
