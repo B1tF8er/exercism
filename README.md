@@ -1,1 +1,1 @@
-# Solutions for the C# track of `exercism`
+# Solutions for the `exercism` tracks #
