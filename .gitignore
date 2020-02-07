@@ -36,3 +36,6 @@ TestResult.xml
 
 # EXERCISM
 .exercism
+
+# IONIDE
+.ionide
