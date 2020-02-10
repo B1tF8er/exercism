@@ -1,6 +1,14 @@
 ﻿module Leap
 
+(* Divisible By Operator *)
+let (%%) x y =
+    x % y = 0
+
+(* Not Divisible By Operator *)
+let (^%%) x y =
+    x % y <> 0
+
 let leapYear (year: int): bool =
-    if year % 100 = 0
-    then year % 400 = 0
-    else year % 4 = 0
+    year %% 4
+    && year ^%% 100
+    || year %% 400
