@@ -39,3 +39,6 @@ TestResult.xml
 
 # IONIDE
 .ionide
+
+# CONFIG
+.config
