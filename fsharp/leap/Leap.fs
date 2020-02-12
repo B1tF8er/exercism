@@ -1,10 +1,8 @@
 ﻿module Leap
 
-(* Divisible By Operator *)
 let divisibleBy x y =
     x % y = 0
 
-(* Not Divisible By Operator *)
 let notDivisibleBy x y =
     x % y <> 0
 
