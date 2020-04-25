@@ -45,3 +45,6 @@ TestResult.xml
 
 # FAKE
 .fake
+
+# VS CODE
+.vscode
