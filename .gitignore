@@ -42,3 +42,6 @@ TestResult.xml
 
 # CONFIG
 .config
+
+# FAKE
+.fake
