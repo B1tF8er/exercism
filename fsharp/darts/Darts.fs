@@ -1,0 +1,10 @@
+﻿module Darts
+
+open System
+
+let score (x: double) (y: double) =
+    match Math.Sqrt(x * x + y * y) with
+    | distance when distance <= 1.0 -> 10
+    | distance when distance <= 5.0 -> 5
+    | distance when distance <= 10.0 -> 1
+    | _ -> 0
